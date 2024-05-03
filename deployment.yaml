@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: helloworld
+  name: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+        - image: souheilbenslama/flask_helloworld:latest
+          name: helloworld
+          resources:
+            requests:
+              cpu: "0.1"
+              memory: "100Mi"
+            limits:
+              cpu: "0.5"
+              memory: "300Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+status: {}
