@@ -5,13 +5,14 @@ metadata:
     app: helloworld
   name: helloworld
 spec:
+  selector:
+    app: helloworld
+  type: LoadBalancer
   ports:
     - name: "5000"
       port: 5000
       protocol: TCP
       targetPort: 5000
-  selector:
-    app: helloworld
-  type: LoadBalancer
+
 status:
   loadBalancer: {}
