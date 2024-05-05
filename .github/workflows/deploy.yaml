@@ -56,6 +56,7 @@ jobs:
           echo "tests are running"
   deployment:
     runs-on: 'ubuntu-latest'
+    needs: test
     outputs:
       kubeconfig-path: ${{ steps.save-kubeconfig.outputs.kubeconfig-path }}
 
@@ -69,13 +70,25 @@ jobs:
       - name: try the cluster !
         run: kubectl get pods -A
 
-      - name: Save kubeconfig to variable
-        id: save-kubeconfig
+      
+      - name: Install Helm
         run: |
-          mkdir -p $HOME/.kube
-          cp /var/lib/minikube/.kube/config $HOME/.kube/config
-          export KUBECONFIG=$HOME/.kube/config
-          echo "::set-output name=kubeconfig-path::$HOME/.kube/config"
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod +x get_helm.sh
+          ./get_helm.sh
+
+
+      - name: Install Helm chart with value override
+        run: |
+            helm install hello-world ./hello-world --set image.tag=${{ github.sha }}
+
+      # - name: Save kubeconfig to variable
+      #   id: save-kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     cp /var/lib/minikube/.kube/config $HOME/.kube/config
+      #     export KUBECONFIG=$HOME/.kube/config
+      #     echo "::set-output name=kubeconfig-path::$HOME/.kube/config"
 
       # - name: 'Deploy'
       #   uses: 'deliverybot/helm@v1'
