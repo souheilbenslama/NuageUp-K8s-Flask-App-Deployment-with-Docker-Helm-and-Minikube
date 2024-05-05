@@ -54,3 +54,39 @@ jobs:
       - name: Run test
         run: |
           echo "tests are running"
+  deployment:
+    runs-on: 'ubuntu-latest'
+    outputs:
+      kubeconfig-path: ${{ steps.save-kubeconfig.outputs.kubeconfig-path }}
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: start minikube
+        uses: medyagh/setup-minikube@master
+      
+      - name: try the cluster !
+        run: kubectl get pods -A
+
+      - name: Save kubeconfig to variable
+        id: save-kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          cp /var/lib/minikube/.kube/config $HOME/.kube/config
+          export KUBECONFIG=$HOME/.kube/config
+          echo "::set-output name=kubeconfig-path::$HOME/.kube/config"
+
+      - name: 'Deploy'
+        uses: 'deliverybot/helm@v1'
+        with:
+          release: 'hello-world'
+          namespace: 'default'
+          chart: 'app'
+          token: '${{ github.token}}'
+          values: |
+            image:
+              tag: ${{ github.sha }}
+        env:
+            KUBECONFIG_FILE: '${{steps.save-kubeconfig.outputs.kubeconfig-path}}'
+          
