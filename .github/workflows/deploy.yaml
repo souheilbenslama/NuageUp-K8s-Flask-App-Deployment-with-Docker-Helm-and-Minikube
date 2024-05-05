@@ -77,29 +77,12 @@ jobs:
           chmod +x get_helm.sh
           ./get_helm.sh
 
-
       - name: Install Helm chart with value override
         run: |
             helm install hello-world ./hello-world --set image.tag=${{ github.sha }}
 
-      # - name: Save kubeconfig to variable
-      #   id: save-kubeconfig
-      #   run: |
-      #     mkdir -p $HOME/.kube
-      #     cp /var/lib/minikube/.kube/config $HOME/.kube/config
-      #     export KUBECONFIG=$HOME/.kube/config
-      #     echo "::set-output name=kubeconfig-path::$HOME/.kube/config"
-
-      # - name: 'Deploy'
-      #   uses: 'deliverybot/helm@v1'
-      #   with:
-      #     release: 'hello-world'
-      #     namespace: 'default'
-      #     chart: 'app'
-      #     token: '${{ github.token}}'
-      #     values: |
-      #       image:
-      #         tag: ${{ github.sha }}
-      #   env:
-      #       KUBECONFIG_FILE: '${{steps.save-kubeconfig.outputs.kubeconfig-path}}'
+      - name: check our deployment
+        run: |
+          kubectl get deployments
+          kubectl describe deployment hello-world-hello-world
           
