@@ -1,0 +1,73 @@
+# Default values for hello-world chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: souheilbenslama/flask_helloworld
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 500m
+    memory: 300Mi
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+podLabels:
+  app: helloworld
+
+
+service:
+  serviceName: "helloworld"
+  type: LoadBalancer
+  name: "5000"
+  port: 5000
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    {}
+  hosts:
+    - host: helloworld.com
+      paths:
+        - path: /
+          pathType: Prefix
+          serviceName: "helloworld"
+          servicePort: 5000
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+
+networkPolicy:
+  enabled: false
