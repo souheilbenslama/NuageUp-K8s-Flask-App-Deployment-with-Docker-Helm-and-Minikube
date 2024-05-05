@@ -84,5 +84,6 @@ jobs:
       - name: check our deployment
         run: |
           kubectl get deployments
-          kubectl describe deployment hello-world-hello-world
+          sleep 60
+          kubectl describe deployment hello-world
           
