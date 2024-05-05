@@ -77,16 +77,16 @@ jobs:
           export KUBECONFIG=$HOME/.kube/config
           echo "::set-output name=kubeconfig-path::$HOME/.kube/config"
 
-      - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
-        with:
-          release: 'hello-world'
-          namespace: 'default'
-          chart: 'app'
-          token: '${{ github.token}}'
-          values: |
-            image:
-              tag: ${{ github.sha }}
-        env:
-            KUBECONFIG_FILE: '${{steps.save-kubeconfig.outputs.kubeconfig-path}}'
+      # - name: 'Deploy'
+      #   uses: 'deliverybot/helm@v1'
+      #   with:
+      #     release: 'hello-world'
+      #     namespace: 'default'
+      #     chart: 'app'
+      #     token: '${{ github.token}}'
+      #     values: |
+      #       image:
+      #         tag: ${{ github.sha }}
+      #   env:
+      #       KUBECONFIG_FILE: '${{steps.save-kubeconfig.outputs.kubeconfig-path}}'
           
