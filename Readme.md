@@ -27,4 +27,7 @@ to benefit from horizental pod autoscaling you need to enbale metrics server on 
 
 # deployment
 
+
+# CICD pipeline 
+
 # how we assured sefl-healing in this app ?

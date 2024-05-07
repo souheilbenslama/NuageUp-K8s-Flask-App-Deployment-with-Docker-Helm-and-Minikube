@@ -83,7 +83,7 @@ jobs:
 
       - name: check our deployment
         run: |
-          kubectl get deployments
+          kubectl get deployments -n helloworld
           sleep 60
-          kubectl describe deployment hello-world
+          kubectl describe deployment hello-world -n helloworld
           
