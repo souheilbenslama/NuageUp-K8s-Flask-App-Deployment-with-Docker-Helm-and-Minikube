@@ -4,6 +4,7 @@ metadata:
   labels:
     {{- include "hello-world.labels" . | nindent 8 }}
   name: {{ include "hello-world.fullname" . }}
+  namespace: {{ .Values.namespace.name | default "default"}}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

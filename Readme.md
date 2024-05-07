@@ -8,7 +8,7 @@ also you need to use a virtual environnment
 you can run the application
 
 ```
-flask run --host 0.0.0.0 app.py
+flask run --host 0.0.0.0 
 ```
 
 flask

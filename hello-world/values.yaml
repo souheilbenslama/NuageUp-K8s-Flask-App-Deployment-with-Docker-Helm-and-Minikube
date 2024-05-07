@@ -17,6 +17,11 @@ resources:
     cpu: 500m
     memory: 300Mi
 
+namespace:
+  enabled: true
+  name: helloworld
+
+
 livenessProbe:
   httpGet:
     path: /healthz
@@ -70,4 +75,4 @@ autoscaling:
 
 
 networkPolicy:
-  enabled: false
+  enabled: true

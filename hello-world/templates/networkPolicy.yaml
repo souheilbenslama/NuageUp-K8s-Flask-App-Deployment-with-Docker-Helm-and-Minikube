@@ -3,17 +3,19 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-same-pods
-  namespace: default
+  name: allow-same-namespace-pods
+  namespace: {{ .Values.namespace.name | default "default"}}
 spec:
   podSelector:
     matchLabels:
-      app: helloworld
+       {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
   ingress:
     - from:
-        - podSelector:
+        - namespaceSelector:
             matchLabels:
-              app: helloworld
+              kubernetes.io/metadata.name: {{ .Values.namespace.name }}
       ports:
         - port: 5000
 

@@ -4,6 +4,7 @@ metadata:
   labels:
     {{- include "hello-world.labels" . | nindent 4 }}
   name: {{.Values.service.serviceName }}
+  namespace: {{.Values.namespace.name | default "default"}}
 spec:
   selector:
     {{- include "hello-world.selectorLabels" . | nindent 4 }}

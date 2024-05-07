@@ -1,39 +1,23 @@
-# {{- if .Values.ingress.enabled -}}
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: {{ include "hello-world.fullname" . }}-ingress
-# spec:
-#   rules:
-#     {{- range .Values.ingress.hosts }}
-#     - host: {{ .host | quote }}
-#       http:
-#         paths:
-#           {{- range .paths }}
-#           - path: {{ .path }}
-#             pathType: {{ .pathType }}
-#             backend:
-#               service:
-#                 name: {{ .serviceName }}
-#                 port:
-#                   number: {{ .servicePort }}
-#           {{- end }}
-#     {{- end }}
-# {{- end }}
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: helloworld-ingress
-  namespace: default
+  name: {{ include "hello-world.fullname" . }}-ingress
+  namespace: {{ .Values.namespace.name | default "default"}}
 spec:
   rules:
-    - host: helloworld.com
+    {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
             backend:
               service:
-                name: helloworld
+                name: {{ .serviceName }}
                 port:
-                  number: 5000
+                  number: {{ .servicePort }}
+          {{- end }}
+    {{- end }}
+{{- end }}
