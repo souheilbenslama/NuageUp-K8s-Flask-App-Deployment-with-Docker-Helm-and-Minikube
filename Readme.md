@@ -120,6 +120,19 @@ minikube addons enable ingress
 minikube addons enable metrics server
 ```
 
-# CICD pipeline 
+## Helm Chart Deployment
+
+Another way to deploy our application and its required resources is by using the Helm chart located in the hello-world folder. A Helm chart is a way of packaging our Kubernetes application, and we will use Helm to install it with the following command:
+
+```bash
+helm install helloworld ./hello-world
+```
+
+
+# CI/CD Pipeline
+
+For our CI/CD pipeline, we used GitHub Actions to define our pipeline. We have three stages in our pipeline: a build stage, a test stage, and a deployment stage. The pipeline definition is located in the .github/workflows/deploy.yaml file.
+
+Since we have no access to a Kubernetes cluster on a cloud provider in our deployment stage, we decided to test the deployment using Minikube. We create a Minikube cluster and deploy our app using the Helm chart. Then, we test if the deployment succeeded.
 
 # how we assured sefl-healing in this app ?
