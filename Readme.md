@@ -100,25 +100,47 @@ You can check the status of your deployment using:
 as we can see 3 of 3 replicas of our app are ready
 
 
+# Self-Healing Mechanisms
 
-Finally, we can deploy the rest of our resources (service, ingress, horizontal pod autoscaler, and network policy) by applying the corresponding manifests.
-.
+After deploying our app using the deployment manifests, we can view the created pods using the following command:
 
-To enable Horizontal Pod Autoscaling (HPA) and benefit from it, you need to enable the Metrics Server on your Kubernetes cluster. 
+```bash
+kubectl get pods -n helloworld
+```
 
-For a running ingress make sure to have a running Ingress controller either by enabling it on Minikube or installing it manually.
+This command shows that the deployment has successfully created 3 replicas of our application, ensuring high availability and self-healing capabilities in case of pod failures.
 
-For Minikube, you can enable the Metrics Server and Ingress Controller using the following commands:
+![Alt text](doc_images/image-4.png)
 
-First, enable the Ingress Controller:
+If we manually delete one of these pods:
+
+```bash
+kubectl delete pod helloworld-845c7958d7-bzk9k -n helloworld
+```
+and then list our pods again, we will see that the deleted pod is in a terminating state. Shortly after, Kubernetes will automatically create a new replica of our pod, demonstrating the self-healing mechanism recovering from a pod deletion.
+
+![Alt text](doc_images/image-5.png)
+
+
+# Networking
+
+To enable communication for our application, we need to create a service of type LoadBalancer by applying the service.yaml file. Additionally, for external communication, we need to create an Ingress rule using the ingress.yaml file.
+
+Before creating the Ingress, ensure that you have a running Ingress controller. For Minikube, you can enable the Ingress Controller using the following command:
 
 ```bash
 minikube addons enable ingress
 ```
 
+# Autosacling
+
+To enable Horizontal Pod Autoscaling (HPA), you must first enable the Metrics Server on your Kubernetes cluster. For Minikube, you can enable the Metrics Server using the following command:
+
 ```bash
 minikube addons enable metrics server
 ```
+
+After enabling the Metrics Server, you can apply the hpa.yaml manifest to set up Horizontal Pod Autoscaling for your deployment.
 
 ## Helm Chart Deployment
 
@@ -127,13 +149,15 @@ Another way to deploy our application and its required resources is by using the
 ```bash
 helm install helloworld ./hello-world
 ```
-
+To customize the deployment, you can modify the values in the values.yaml file of the Helm chart before installing it. This allows you to configure various aspects of your application deployment, such as resource limits, environment variables, and more.
 
 # CI/CD Pipeline
 
 For our CI/CD pipeline, we used GitHub Actions to define our pipeline. We have three stages in our pipeline: a build stage, a test stage, and a deployment stage. The pipeline definition is located in the .github/workflows/deploy.yaml file.
 
 ![Alt text](doc_images/image-2.png)
-Since we have no access to a Kubernetes cluster on a cloud provider in our deployment stage, we decided to test the deployment using Minikube. We create a Minikube cluster and deploy our app using the Helm chart. Then, we test if the deployment succeeded.
+Since we have no access to a Kubernetess cluster on a cloud provider in our deployment stage, we decided to test the deployment using Minikube. We create a Minikube cluster and deploy our app using the Helm chart. Then, we test if the deployment succeeded.
 
-# how we assured sefl-healing in this app ?
+![Alt text](doc_images/image6.png)
+
+
