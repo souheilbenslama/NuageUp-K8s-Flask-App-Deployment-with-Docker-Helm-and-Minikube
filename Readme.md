@@ -76,7 +76,7 @@ You can test your cluster's status by running:
  ```
  minikube status
  ```
- ![Alt text](image.png)
+ ![Alt text](doc_images/image.png)
 
 Next, we will deploy our application on the cluster by applying the different YAML files located in the manifests folder.
 
@@ -96,7 +96,7 @@ kubectl apply -f manifests/deployment.yaml
 
 You can check the status of your deployment using:
 
-![Alt text](image-1.png)
+![Alt text](doc_images/image-1.png)
 as we can see 3 of 3 replicas of our app are ready
 
 
@@ -133,6 +133,7 @@ helm install helloworld ./hello-world
 
 For our CI/CD pipeline, we used GitHub Actions to define our pipeline. We have three stages in our pipeline: a build stage, a test stage, and a deployment stage. The pipeline definition is located in the .github/workflows/deploy.yaml file.
 
+![Alt text](doc_images/image-2.png)
 Since we have no access to a Kubernetes cluster on a cloud provider in our deployment stage, we decided to test the deployment using Minikube. We create a Minikube cluster and deploy our app using the Helm chart. Then, we test if the deployment succeeded.
 
 # how we assured sefl-healing in this app ?
