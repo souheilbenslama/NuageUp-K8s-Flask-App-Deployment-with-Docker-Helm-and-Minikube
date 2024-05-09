@@ -10,7 +10,7 @@ spec:
     app: helloworld
   type: LoadBalancer
   ports:
-    - name: http
+    - name: "5000"
       port: 5000
       protocol: TCP
       targetPort: 5000

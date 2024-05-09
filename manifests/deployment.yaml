@@ -20,6 +20,7 @@ spec:
       containers:
         - name: helloworld
           image: souheilbenslama/flask_helloworld:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 5000
           resources:
