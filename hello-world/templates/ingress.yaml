@@ -2,9 +2,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "hello-world.fullname" . }}-ingress
-  namespace: {{ .Values.namespace.name | default "default"}}
+  name: {{ include "hello-world.name" . }}-ingress
+  namespace: {{ .Values.namespace.name | default "default"}}  
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
+
+  ingressClassName: {{ .Values.ingress.className}}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
