@@ -2,6 +2,9 @@ The hello world Flask application
 
 The repository includes a Flask hello world application along with its Dockerfile for building Docker images. It also contains all the necessary manifests for deploying the application on a Kubernetes cluster, along with the Helm chart for the application.
 
+## Architecture
+
+![Architecture Diagram](Diagram.png)
 
 this Readme file contains  the detailed instructions on how to deploy and test the application.
 
@@ -16,7 +19,7 @@ To test and deploy this application, you will need the following tools:
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [Helm](https://helm.sh/docs/intro/install/)
 
-![Architecture Diagram](Diagram.png)
+
 ## Local Testing
 
 To start testing this application, you need to create a virtual environment, install the required dependencies in it, and then run the application.
