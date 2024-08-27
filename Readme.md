@@ -16,7 +16,7 @@ To test and deploy this application, you will need the following tools:
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 - [Helm](https://helm.sh/docs/intro/install/)
 
-
+![Architecture Diagram](technical_architecture_submission_souheil.png)
 ## Local Testing
 
 To start testing this application, you need to create a virtual environment, install the required dependencies in it, and then run the application.
